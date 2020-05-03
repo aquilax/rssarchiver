@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -22,7 +23,7 @@ func NewArchiver() *Archiver {
 	return &Archiver{}
 }
 
-func (a *Archiver) Run(fileName string) error {
+func (a *Archiver) UpdateFromOPML(fileName string) error {
 	doc, err := opml.NewOPMLFromFile(fileName)
 	if err != nil {
 		return err
@@ -56,6 +57,11 @@ func (a *Archiver) Run(fileName string) error {
 	}
 	wp.StopWait()
 	return nil
+}
+
+// GenerateSummary generates feeds summary for a specified date
+func (a *Archiver) GenerateSummary(date string) error {
+	return fmt.Errorf("Not implemented")
 }
 
 func collectLinks(outlines []opml.Outline) []string {
