@@ -39,7 +39,7 @@ func (a *Archiver) Run(fileName string) error {
 
 	for i, l := range links {
 		l := l
-		i := i
+		i := i + 1
 		wp.Submit(func() {
 			log.Printf("[%d/%d] Procesing %v", i, total, l)
 			feed, err := fetchFeed(l, 10)
@@ -96,7 +96,7 @@ func saveFeed(url string, feed *gofeed.Feed) error {
 		}
 		appendFeed(feed, downloadedFeed)
 	}
-	data, err = json.MarshalIndent(feed, "", " ")
+	data, err = json.MarshalIndent(feed, "", "  ")
 	if err != nil {
 		return err
 	}
