@@ -9,12 +9,14 @@ github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/gammazero/deque v0.0.0-20200227231300-1e9af0e52b46 h1:iX4+rD9Fjdx8SkmSO/O5WAIX/j79ll3kuqv5VdYt9J8=
+github.com/gammazero/deque v0.0.0-20200227231300-1e9af0e52b46/go.mod h1:D90+MBHVc9Sk1lJAbEVgws0eYEurY4mv2TDso3Nxh3w=
+github.com/gammazero/workerpool v0.0.0-20200311205957-7b00833861c6 h1:1Cy/haf7XO4OyrkGid0Wq5CMluIErbvDptVAt8UTy38=
+github.com/gammazero/workerpool v0.0.0-20200311205957-7b00833861c6/go.mod h1:/XWO2YAUUpPi3smDlFBl0vpX0JHwUomDM/oRMwRmnSs=
 github.com/gilliek/go-opml v1.0.0 h1:X8xVjtySRXU/x6KvaiXkn7OV3a4DHqxY8Rpv6U/JvCY=
 github.com/gilliek/go-opml v1.0.0/go.mod h1:fOxmtlzyBvUjU6bjpdjyxCGlWz+pgtAHrHf/xRZl3lk=
 github.com/kennygrant/sanitize v1.2.4 h1:gN25/otpP5vAsO2djbMhF/LQX6R7+O1TB4yv8NzpJ3o=
 github.com/kennygrant/sanitize v1.2.4/go.mod h1:LGsjYYtgxbetdg5owWB2mpgUL6e2nfw2eObZ0u0qvak=
-github.com/mmcdole/gofeed v1.0.0-beta2 h1:CjQ0ADhAwNSb08zknAkGOEYqr8zfZKfrzgk9BxpWP2E=
-github.com/mmcdole/gofeed v1.0.0-beta2/go.mod h1:/BF9JneEL2/flujm8XHoxUcghdTV6vvb3xx/vKyChFU=
 github.com/mmcdole/gofeed v1.0.0-beta2.0.20200331235650-4298e4366be3 h1:Wy+ed15cpwtLcJYNiO4Z0wmjZHpNj4q0RsGbsoxWSMA=
 github.com/mmcdole/gofeed v1.0.0-beta2.0.20200331235650-4298e4366be3/go.mod h1:tkVcyzS3qVMlQrQxJoEH1hkTiuo9a8emDzkMi7TZBu0=
 github.com/mmcdole/goxpp v0.0.0-20181012175147-0068e33feabf h1:sWGE2v+hO0Nd4yFU/S/mDBM5plIU8v/Qhfz41hkDIAI=

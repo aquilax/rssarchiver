@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"log"
+	"os"
 	"path/filepath"
+	"runtime"
 	"time"
 
+	"github.com/gammazero/workerpool"
 	"github.com/gilliek/go-opml/opml"
 	"github.com/kennygrant/sanitize"
 	"github.com/mmcdole/gofeed"
@@ -25,16 +28,34 @@ func (a *Archiver) Run(fileName string) error {
 		return err
 	}
 	links := collectLinks(doc.Body.Outlines)
-	fmt.Println(links[1])
 
-	feed, err := fetchFeed(links[1], 60)
-	if err != nil {
-		return err
+	var workers = runtime.NumCPU()
+	if workers > 1 {
+		workers--
 	}
-	// for _, i := range feed.Items {
-	// 	println(i.Title)
-	// }
-	return saveFeed(links[0], feed)
+	wp := workerpool.New(workers)
+
+	total := len(links)
+
+	for i, l := range links {
+		l := l
+		i := i
+		wp.Submit(func() {
+			log.Printf("[%d/%d] Procesing %v", i, total, l)
+			feed, err := fetchFeed(l, 10)
+			if err != nil {
+				log.Printf("[%d/%d] Error downloading feed %s : %v", i, total, l, err)
+				return
+			}
+			err = saveFeed(l, feed)
+			if err != nil {
+				log.Printf("[%d/%d] Error saving feed %s : %v", i, total, l, err)
+			}
+			log.Printf("[%d/%d] Done with %s", i, total, l)
+		})
+	}
+	wp.StopWait()
+	return nil
 }
 
 func collectLinks(outlines []opml.Outline) []string {
@@ -58,11 +79,38 @@ func fetchFeed(url string, timeout time.Duration) (*gofeed.Feed, error) {
 }
 
 func saveFeed(url string, feed *gofeed.Feed) error {
-	fileName := filepath.Join("./output", sanitize.BaseName(url))
-	println(fileName)
-	data, err := json.MarshalIndent(feed.Items, "", " ")
+	var err error
+	var data []byte
+	fileName := filepath.Join("./output", sanitize.BaseName(url)) + ".json"
+
+	var downloadedFeed gofeed.Feed
+	_, err = os.Stat(fileName)
+	if !os.IsNotExist(err) {
+		data, err = ioutil.ReadFile(fileName)
+		if err != nil {
+			return err
+		}
+		err = json.Unmarshal(data, &downloadedFeed)
+		if err != nil {
+			return err
+		}
+		appendFeed(feed, downloadedFeed)
+	}
+	data, err = json.MarshalIndent(feed, "", " ")
 	if err != nil {
 		return err
 	}
 	return ioutil.WriteFile(fileName, data, 0644)
+}
+
+func appendFeed(feed *gofeed.Feed, downloadedFeed gofeed.Feed) {
+	newIds := make(map[string]interface{})
+	for _, i := range feed.Items {
+		newIds[i.GUID] = nil
+	}
+	for _, i := range downloadedFeed.Items {
+		if _, ok := newIds[i.GUID]; !ok {
+			feed.Items = append(feed.Items, i)
+		}
+	}
 }
